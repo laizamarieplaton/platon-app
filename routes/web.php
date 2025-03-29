@@ -11,8 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['name' => 'platon-app']);
 });
+
+Route::get('/users', [UserController::class, 'index']);
+
+Route::resource('/products', ProductController::class);
+
 
 
 //Service Container
@@ -87,14 +92,15 @@ Route::post('/token', function(Request $request){
 });
 
 //Controller -> Middleware
-Route::get('/users', [UserController::class, 'index'])-> middleware('user-middleware');
+//Route::get('/users', [UserController::class, 'index'])-> middleware('user-middleware');
 
 //Resource
-Route::resource('/products', ProductController::class);
+//Route::resource('/products', ProductController::class);
 
 //View with Data
 Route::get('/product-list', function (ProductService $productService) {
     $data['products'] = $productService->listProducts();
     return view('product.list', $data);
 });
+
 
